@@ -1,0 +1,13 @@
+#!/bin/bash
+
+FILES=/projects/micb405/resources/project_2/2018/SaanichInlet_120m/MetaBAT2_SaanichInlet_120m/MedQPlus_MAGs/*.fa
+for filename in $FILES
+do
+	prefix=$(basename $filename | sed 's/.fa//g')
+	echo "Running Prokka for file ${prefix}"
+	prokka \
+	--outdir Prokka_output/${prefix}/ \
+	--prefix ${prefix} \
+	--kingdom Bacteria \
+	--cpus 4 ${filename}
+done
