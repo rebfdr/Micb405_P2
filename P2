@@ -11,3 +11,20 @@ do
 	--kingdom Bacteria \
 	--cpus 4 ${filename}
 done
+
+
+###################################################################################################
+# Run prokka - as shown in MICB 405
+###################################################################################################
+#strip away.fa, grep
+
+cd /projects/micb405/resources/project_2/2018/SaanichInlet_120m
+
+for f in $output_dir/MedQPlus_MAGs/*fa
+do
+    sid=$( basename $f | sed 's/.fa//g' )
+    tax=$(grep -w $sid $output_dir/gtdbtk_output/gtdbtk.*.classification_pplacer.tsv | awk '{ print $2 }' | awk -F";" '{ print $1 }' | sed 's/d__//g')
+    echo $sid,$tax
+    prokka --kingdom $tax --outdir $prokka_output_dir/$bin_num/ --force $f
+done
+##################################################
