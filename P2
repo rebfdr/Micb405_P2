@@ -1,30 +1,29 @@
+####################################
+# Genome Annotation
+####################################
+
 #!/bin/bash
 
-FILES=/projects/micb405/resources/project_2/2018/SaanichInlet_120m/MetaBAT2_SaanichInlet_120m/MedQPlus_MAGs/*.fa
-for filename in $FILES
-do
-	prefix=$(basename $filename | sed 's/.fa//g')
-	echo "Running Prokka for file ${prefix}"
-	prokka \
-	--outdir Prokka_output/${prefix}/ \
-	--prefix ${prefix} \
-	--kingdom Bacteria \
-	--cpus 4 ${filename}
-done
-
-
-###################################################################################################
-# Run prokka - as shown in MICB 405
-###################################################################################################
-#strip away.fa, grep
-
-cd /projects/micb405/resources/project_2/2018/SaanichInlet_120m
-
+output_dir=/projects/micb405/resources/project_2/2018/SaanichInlet_120m/MetaBAT2_SaanichInlet_120m/
+prokka_output_dir=~/prokka_output
 for f in $output_dir/MedQPlus_MAGs/*fa
 do
     sid=$( basename $f | sed 's/.fa//g' )
+    bin_num=$( basename $f | sed 's/.fa//g' | sed 's/SaanichInlet_120m.//g')
     tax=$(grep -w $sid $output_dir/gtdbtk_output/gtdbtk.*.classification_pplacer.tsv | awk '{ print $2 }' | awk -F";" '{ print $1 }' | sed 's/d__//g')
-    echo $sid,$tax
+    echo $sid,$tax,$bin_num
     prokka --kingdom $tax --outdir $prokka_output_dir/$bin_num/ --force $f
 done
-##################################################
+
+##################################
+# Metabolic Reconstruction
+##################################
+
+#using Github download the .faa files
+scp -r rdremedios_mb18@orca-wg.bcgsc.ca:/home/rdremedios_mb18/prokka_output/* ~/Desktop/micb405_P2
+
+dirname=~/Desktop/micb405_P2/*
+for f in ~/Desktop/micb405_P2/*/*faa
+do
+    echo cp $f ~/Desktop/micb405_P2/prokka_output_faa/$dirname
+done
