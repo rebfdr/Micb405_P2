@@ -18,6 +18,8 @@ done
 ##################################
 # Metabolic Reconstruction
 ##################################
+# move .faa files into one .faa file
+cat SaanichInlet_100m.*.faa > final.faa
 
 #using Github download the .faa files
 scp -r rdremedios_mb18@orca-wg.bcgsc.ca:/home/rdremedios_mb18/prokka_output/* ~/Desktop/micb405_P2
