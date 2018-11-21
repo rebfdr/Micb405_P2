@@ -18,14 +18,24 @@ done
 ##################################
 # Metabolic Reconstruction
 ##################################
-# move .faa files into one .faa file
-cat SaanichInlet_100m.*.faa > final.faa
-
-#using Github download the .faa files
+#use Github to download the .faa files onto desktop
 scp -r rdremedios_mb18@orca-wg.bcgsc.ca:/home/rdremedios_mb18/prokka_output/* ~/Desktop/micb405_P2
+## then upload each .faa file into KAAS using the metagenome default options
+## download the resulting .txt file
 
-dirname=~/Desktop/micb405_P2/*
-for f in ~/Desktop/micb405_P2/*/*faa
-do
-    echo cp $f ~/Desktop/micb405_P2/prokka_output_faa/$dirname
-done
+### or ###
+
+# move .faa files into one .faa file in putty
+cat prokka_ouput/*/*.faa > prokka_final.faa
+
+#use Github to download the .faa file onto desktop
+scp -r rdremedios_mb18@orca-wg.bcgsc.ca:/home/rdremedios_mb18/prokka_final.faa ~/Desktop/micb405_P2
+## then upload each .faa file into KAAS using the metagenome default options
+## download the resulting .txt file
+
+##################################
+# Transcriptional Activity
+##################################
+#concatenate files for reference
+ cat ~/Desktop/prokka_output/*/*.ffn >> ref.fasta
+ 
