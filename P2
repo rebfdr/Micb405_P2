@@ -37,5 +37,5 @@ scp -r rdremedios_mb18@orca-wg.bcgsc.ca:/home/rdremedios_mb18/prokka_final.faa ~
 # Transcriptional Activity
 ##################################
 #concatenate files for reference
- cat ~/Desktop/prokka_output/*/*.ffn >> ref.fasta
+ cat prokka_output/*/*.ffn > ref.fasta
  
