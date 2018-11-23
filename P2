@@ -54,3 +54,5 @@ grep '\sK' ~/Desktop/micb405_P2/final_kass.txt > ~/Desktop/micb405_P2/final_kass
     bwa mem -t 2 ~/project2/ref.fasta /projects/micb405/resources/project_2/2018/Metatranscriptomes/${filename} > ~/project2/${filename}___outfile.sam
     echo "Done alignment - $filename"
 done
+
+
