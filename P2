@@ -23,6 +23,9 @@ scp -r rdremedios_mb18@orca-wg.bcgsc.ca:/home/rdremedios_mb18/prokka_output/* ~/
 ## then upload each .faa file into KAAS using the metagenome default options
 ## download the resulting .txt file
 
+#create file with only annotated rows
+grep '\sK' ~/Desktop/micb405_P2/kaas_output_txt/*.txt > *.cleaned.txt
+
 ### or ###
 
 # move .faa files into one .faa file in putty
@@ -32,6 +35,9 @@ cat prokka_ouput/*/*.faa > prokka_final.faa
 scp -r rdremedios_mb18@orca-wg.bcgsc.ca:/home/rdremedios_mb18/prokka_final.faa ~/Desktop/micb405_P2
 ## then upload each .faa file into KAAS using the metagenome default options
 ## download the resulting .txt file
+
+#create file with only annotated rows
+grep '\sK' ~/Desktop/micb405_P2/final_kass.txt > ~/Desktop/micb405_P2/final_kass.cleaned.txt
 
 ##################################
 # Transcriptional Activity
