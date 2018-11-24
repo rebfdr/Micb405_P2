@@ -55,9 +55,16 @@ grep '\sK' ~/Desktop/micb405_P2/final_kass.txt > ~/Desktop/micb405_P2/final_kass
     echo "Done alignment - $filename"
 done
 
-#create csv files
+#generate csv files
 /projects/micb405/resources/project_2/2018/rpkm \
 -c project2/ref.fasta \
 -a project2/SI042_120m.qtrim.artifact.rRNA.clean.fastq.gz___outfile.sam \
 -o project2/rpkm_outputs/SI042_120m.csv
+
+#download .csv files
+scp -r rdremedios_mb18@orca-wg.bcgsc.ca:/home/rdremedios_mb18/project2/rpkm_outputs ~/Desktop/micb405_P2
+
+####################################
+#figure generation
+####################################
 
