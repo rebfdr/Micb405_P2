@@ -68,3 +68,33 @@ scp -r rdremedios_mb18@orca-wg.bcgsc.ca:/home/rdremedios_mb18/project2/rpkm_outp
 #figure generation
 ####################################
 
+for f in prokka_output/*/*faa
+do
+prokka_id=$( head -1 $f | awk -F_ '{ print $1 }' | sed 's/^>//g' )
+mag_id=$( echo $f | sed 's/.faa//g')
+echo $prokka_id,$mag_id
+done >Prokka_MAG_map.csv
+
+#download Prokka_MAG_map.csv file
+scp rdremedios_mb18@orca-wg.bcgsc.ca:/home/rdremedios_mb18/Prokka_MAG_map.csv ~/Desktop/micb405_P2
+
+#concatenate RPKM.csv files from each cruise
+
+#download the other two files from gtdbk
+
+#load files in ko
+ko <- read.table("C:/Users/Rebecca/Desktop/micb405_P2/final_kass.cleaned.txt") %>% 
+  dplyr::rename(orf = V1) %>% 
+  dplyr::rename(ko = V2)
+
+rpkm <- read.table("C:/Users/Rebecca/Desktop/micb405_P2/rpkm_ouputs/final_rpkm.csv", sep=',') %>% 
+  dplyr::rename(orf = V1) %>% 
+  dplyr::rename(rpkm = V2)
+  
+prokka_mag_map <- read.table("C:/Users/Rebecca/Desktop/micb405_P2/Prokka_MAG_map.csv", header=F, sep=',') %>% 
+  dplyr::rename(prokka_id = V1) %>% 
+  dplyr::rename(mag = V2)
+
+arc_class <- read.table("C:/Users/Rebecca/Desktop/micb405_P2/gtdbtk.ar122.classification_pplacer.tsv", sep="\t")
+
+bac_class <- read.table("C:/Users/Rebecca/Desktop/micb405_P2/gtdbtk.bac120.classification_pplacer.tsv", sep="\t")
