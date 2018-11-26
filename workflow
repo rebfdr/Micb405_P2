@@ -81,6 +81,7 @@ scp rdremedios_mb18@orca-wg.bcgsc.ca:/home/rdremedios_mb18/Prokka_MAG_map.csv ~/
 #concatenate RPKM.csv files from each cruise
 
 #download the other two files from gtdbk
+scp rdremedios_mb18@orca-wg.bcgsc.ca:/projects/micb405/resources/project_2/2018/SaanichInlet_120m/MetaBAT2_SaanichInlet_120m/MetaBAT2_SaanichInlet_120m_min1500_checkM_stdout.tsv ~/Desktop/micb405_P2
 
 #load files in ko
 ko <- read.table("C:/Users/Rebecca/Desktop/micb405_P2/final_kass.cleaned.txt") %>% 
