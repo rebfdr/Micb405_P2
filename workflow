@@ -80,8 +80,9 @@ scp rdremedios_mb18@orca-wg.bcgsc.ca:/home/rdremedios_mb18/Prokka_MAG_map.csv ~/
 
 #concatenate RPKM.csv files from each cruise
 
-#download the other two files from gtdbk
+#download the other 4 files
 scp rdremedios_mb18@orca-wg.bcgsc.ca:/projects/micb405/resources/project_2/2018/SaanichInlet_120m/MetaBAT2_SaanichInlet_120m/MetaBAT2_SaanichInlet_120m_min1500_checkM_stdout.tsv ~/Desktop/micb405_P2
+scp rdremedios_mb18@orca-wg.bcgsc.ca:/projects/micb405/resources/project_2/2018/SaanichInlet_120m/SaanichInlet_120m_binned.rpkm.csv ~/Desktop/micb405_P2
 
 #load files in ko
 ko <- read.table("C:/Users/Rebecca/Desktop/micb405_P2/final_kass.cleaned.txt") %>% 
@@ -99,3 +100,29 @@ prokka_mag_map <- read.table("C:/Users/Rebecca/Desktop/micb405_P2/Prokka_MAG_map
 arc_class <- read.table("C:/Users/Rebecca/Desktop/micb405_P2/gtdbtk.ar122.classification_pplacer.tsv", sep="\t")
 
 bac_class <- read.table("C:/Users/Rebecca/Desktop/micb405_P2/gtdbtk.bac120.classification_pplacer.tsv", sep="\t")
+
+checkm_dat <- read.table("C:/Users/Rebecca/Desktop/micb405_P2/MetaBAT2_SaanichInlet_120m_min1500_checkM_stdout.tsv",
+                         header=TRUE,
+                         sep="\t",
+                         comment.char = '') %>% 
+  dplyr::rename(mag = Bin.Id) %>% 
+  dplyr::select(mag, Completeness, Contamination)
+  
+# Due to a bug in the renaming script we have to rename the bins. Its a bit hacky but works using tidyverse functions
+metag_rpkm <- read.table("C:/Users/Rebecca/Desktop/micb405_P2/SaanichInlet_120m_binned.rpkm.csv", header=T, sep=',') %>% 
+  mutate(Sequence = gsub('m_', 'm.', Sequence)) %>% 
+  mutate(Sequence = gsub('Inlet_', 'Inlet.', Sequence)) %>% 
+  separate(col=Sequence, into=c("mag", "contig"), sep='_', extra="merge") %>% 
+  group_by(Sample, mag) %>% 
+  summarise(g_rpkm = sum(RPKM)) %>% 
+  mutate(mag = gsub('Inlet.', 'Inlet_', mag))
+  
+  # Nitrogen metabolism
+pv.out <- pathview(gene.data = pv_mat,
+                   limit = list(gene = c(0,10)),
+                   low = list(gene = "#91bfdb"),
+                   mid = list(gene = "#ffffbf"),
+                   high = list(gene = "#fc8d59"),
+                   species = "ko",
+                   pathway.id="00910",
+                   kegg.dir = "C:/Users/Rebecca/Desktop/micb405_P2/")
